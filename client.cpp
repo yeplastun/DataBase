@@ -13,7 +13,7 @@ using namespace std;
 void reverse(string s) {
 	unsigned long int i, j;
 	char c;
-	for (i = 0, j = s.size()-1; i<j; i++, j--) {
+	for (i = 0, j = s.size() - 1; i < j; i++, j--) {
 		c = s[i];
 		s[i] = s[j];
 		s[j] = c;
@@ -68,15 +68,16 @@ int main (int argc, char* argv[]) {
 	write(s, &len, sizeof(int)); //отправляем в sock то, что лежит в &len, sizeof(int) байт
 	write(s, argv[3], len);
 
-	while(1) {
+	while (1) {
 		cout << "Write a command:" << endl;
 		bzero( message, sizeof(message));
-		fgets (message, 1024, stdin);
-		// cout << "Read!" << endl;
+		//fgets (message, 1024, stdin);
+		cin >> message;
+		cout << "Read!" << endl;
 		len = strlen(message) - 1;
 		message[len] = 0;
 		if ( strcmp(message, "end") == 0 ) break;
-		write(s, &len, sizeof(int)); 
+		write(s, &len, sizeof(int));
 		write(s, message, len );
 
 		recv(s, &code, sizeof(int), MSG_WAITALL);
@@ -89,8 +90,7 @@ int main (int argc, char* argv[]) {
 			printf("message is : %s\n", message );
 		}
 		if (code == 1) {
-			string ofname1, str;
-			ofname1 = ofname;
+			string str,ofname_tmp;
 			str = itoa(request_number);
 			ofname_tmp += str;
 			FILE* output;
@@ -99,10 +99,10 @@ int main (int argc, char* argv[]) {
 			recv(s, &kol, sizeof(int), MSG_WAITALL);
 			for (int i = 0; i < kol; i++) {
 				recv(s, &len, sizeof(int), MSG_WAITALL);
-				recv(s, message, len, MSG_WAITALL); 
+				recv(s, message, len, MSG_WAITALL);
 				message[len] = 0;
 				fprintf(output, "%s", message );
-				for (int q = 0; q < (8 - len); q++) {   
+				for (int q = 0; q < (8 - len); q++) {
 					fprintf (output, " ");
 				}
 			}
@@ -118,9 +118,9 @@ int main (int argc, char* argv[]) {
 					if (len < 0) {
 						recv(s, &int_message, sizeof(int), MSG_WAITALL);
 						int rzd = 1;
-						int s_kol =1;
+						int s_kol = 1;
 						while ((int_message / rzd) >= 1) {
-							rzd *=10;
+							rzd *= 10;
 							s_kol++;
 						}
 						fprintf(output, "%d", int_message);
@@ -132,7 +132,7 @@ int main (int argc, char* argv[]) {
 							}
 						}
 					}
-					else {   
+					else {
 						recv(s, message, len, MSG_WAITALL);
 						message[len] = 0;
 						if (len > 10)
@@ -144,11 +144,11 @@ int main (int argc, char* argv[]) {
 						}
 					}
 				}
-				fprintf(output, "\n");   
+				fprintf(output, "\n");
 			}
 			fclose(output);
 			request_number++;
 		}
-	}	
+	}
 	return 0;
 }

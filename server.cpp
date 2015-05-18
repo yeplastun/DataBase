@@ -14,25 +14,25 @@ int main () {
 	cout << "--------------------------------------------------------------------------";
 	cout << endl;
 	start = clock();
-	generate(10000,"raw.txt");
+	generate(10000, "raw.txt");
 	end = clock();
 	cout << "end of generating: ";
-	cout << ((double) end - start)/ ((double) CLOCKS_PER_SEC) << endl;
+	cout << ((double) end - start) / ((double) CLOCKS_PER_SEC) << endl;
 	start = clock();
 	database d;
-	request req("import raw.txt",0);
+	request req("import raw.txt", 0);
 	d.Import(req);
 	cout << d.size() << endl;
 	end = clock();
 	cout << "end of creating base: ";
-	cout << ((double) end - start)/ ((double) CLOCKS_PER_SEC) << endl;
+	cout << ((double) end - start) / ((double) CLOCKS_PER_SEC) << endl;
 	cout << "--------------------------------------------------------------------------" << endl;
 	// int code;
 	int Port = 1234;
 	int s;
 	s = socket(AF_INET, SOCK_STREAM, 0);
 	int yes = 1;
-	setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int) == -1 );
+	// setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int) == -1 );
 	sockaddr_in MyAddr;
 	memset(&MyAddr, 0, sizeof(sockaddr_in));
 	MyAddr.sin_family = AF_INET;
@@ -40,7 +40,7 @@ int main () {
 	MyAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	if ( ::bind(s, (sockaddr*) &MyAddr, sizeof(MyAddr)) < 0 )
 		perror("bind error\n");
-	listen (s,10);
+	listen (s, 10);
 	char buf[1024];
 	long long len;
 	ssize_t bytes_read;
@@ -50,11 +50,11 @@ int main () {
 	fd_set rfds;
 	struct timeval tv;
 	int retval;
-	while(1) {
+	while (1) {
 		FD_ZERO(&rfds);
 		FD_SET(s, &rfds);
 		FD_SET(0, &rfds);
-		for(set<int>::iterator it = clients.begin(); it != clients.end(); it++)
+		for (set<int>::iterator it = clients.begin(); it != clients.end(); it++)
 			FD_SET(*it, &rfds);
 		tv.tv_sec = 5;
 		tv.tv_usec = 0;
@@ -86,13 +86,14 @@ int main () {
 				printf("message is: %s\n", buf);
 			}
 			continue;
-		} 
+		}
 		// cout << "Number of clients: " << clients.size() << endl;
-		for(set<int>::iterator it = clients.begin(); it != clients.end(); it++) {
+		for (set<int>::iterator it = clients.begin(); it != clients.end(); it++) {
 			// cout << "Trying to find a mistake" << endl;
-			if(FD_ISSET(*it, &rfds)) {
+			if (FD_ISSET(*it, &rfds)) {
 				bytes_read = recv(*it, &len, sizeof(int), MSG_WAITALL);
-				if(bytes_read <= 0) {
+				cout << bytes_read << endl;
+				if (bytes_read <= 0) {
 					cout << "Client disconnected" << endl;
 					close(*it);
 					clients.erase(*it);
@@ -100,6 +101,7 @@ int main () {
 					continue;
 				}
 				bytes_read = recv(*it, buf, len, MSG_WAITALL);
+				//cout << bytes_read << endl;
 				buf[len] = 0;
 				request RT;
 				string str;
@@ -117,7 +119,7 @@ int main () {
 				d.Execute(RT);
 				end = clock();
 				cout << "last request: ";
-				cout << ((double) end - start)/ ((double) CLOCKS_PER_SEC);
+				cout << ((double) end - start) / ((double) CLOCKS_PER_SEC);
 				cout << " seconds" << endl;
 			}
 		}
