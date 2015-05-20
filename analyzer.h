@@ -140,6 +140,7 @@ public:
 				if (!ss)
 					return 0;
 				type_ = 3;
+				return 1;
 			}
 			else {
 				ss.unget();
@@ -191,7 +192,6 @@ public:
 	cond<string> info_;
 	cell insertStudent;
 	string fileName;
-	string output;
 	bool empty_;
 	bool empty() {
 		return empty_;
@@ -206,7 +206,6 @@ public:
 		info_.empty_ = 1;
 		empty_ = 2;
 		fileName = "";
-		output = "";
 	}
 	request(string req, int client) {
 		if (get_request(req, client))
@@ -225,8 +224,6 @@ public:
 		if (type_ == "print") {
 			while (ss && tmp != "sort" && tmp != "to") {
 				ss >> tmp;
-				if (!ss)
-					return 0;
 				if (fields().find(tmp) != fields().end())
 					print_fields_.push_back(tmp);
 				else
@@ -243,13 +240,10 @@ public:
 				if (!ss)
 					return 1;
 			}
-			if (tmp != "to" || !ss)
-				return 0;
-			ss >> output;
-			if (!ss)
+			if (print_fields_.empty())
 				return 0;
 			return 1;
-		}
+}
 		if (type_ == "insert") {
 			ss >> insertStudent;
 			if (!ss)
@@ -272,8 +266,13 @@ public:
 			return 0;
 		while (ss) {
 			ss >> tmp;
-			if (!ss)
-				return 0;
+			if (!ss) {
+				if (name_.empty_ == 1 && group_.empty_ == 1 &&
+					rating_.empty_ == 1 && info_.empty_ == 1)
+					return 0;
+				else 
+					return 1;
+			}
 			if (fields().find(tmp) != fields().end()) {
 				if (tmp == "name")
 					if (name_.get_condition(ss) == 0) {
@@ -297,14 +296,14 @@ public:
 					}
 			}
 			else
-				return 0;
+				return 1;
 		}
 		return 1;
 	}
 
 	friend ostream& operator <<(ostream& out, request& req) {
-		if (req.empty())
-			return out;
+		//if (req.empty())
+		//	return out;
 		out << "Request type: " << req.type_ << endl;
 		if (req.type_ == "print") {
 			out << "Fields: ";
@@ -314,8 +313,8 @@ public:
 			out << endl;
 			if (req.sort_field_.length() > 0)
 				out << "Sort by: " << req.sort_field_ << endl;
-			if (req.output.length() > 0)
-				out << "Print to: " << req.output << endl;
+			//if (req.output.length() > 0)
+			//	out << "Print to: " << req.output << endl;
 			return out;
 		}
 		if (req.name_.empty_ == 0) {

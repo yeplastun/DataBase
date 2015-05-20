@@ -1,27 +1,27 @@
 #include "tester.h"
 #include <ctime>
+#include "data.h"
 
 #define DATA_SIZE 1000
 
 using namespace std;
 
-void print_groups(database& students) {
-	for (int i = 0; i < DATA_SIZE; i++) {
-		list<cell*> group = *students.get_group(i);
-		if (group.size() > 0) {
-			cout << "group N " << i << " :" << endl;
-			for(list<cell*>::iterator it = group.begin(); 
-					it != group.end(); it++)
-				cout << **it;
-		}
-	}
-	cout << students.size() << endl;
-}
-
 int main() {
 
 	database d;
-	d.Interface(std::cin,std::cout);
-
+	generate(1000, "raw.txt");
+	request req;
+	cout << req.get_request("import raw.txt",0) << endl;
+	d.Execute(req);
+	cout << req.get_request("remove group = 1 - 99",0) << endl;
+	d.Execute(req);
+	cout << req.get_request("select group = 100",0) << endl;
+	d.Execute(req);
+	cout << req.get_request("print name group rating info sort info",0) << endl;
+	d.Execute(req);
+	for (vector<string>::iterator it = d.printed[0].begin(); it != d.printed[0].end(); ++it) 
+		cout << *it << endl;
+	cout << d.size() << endl;
 	return 0;
+	// segmentation fault если select вынужден вернуть пустое значение
 }

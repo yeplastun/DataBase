@@ -1,3 +1,6 @@
+#ifndef DataBase_tester_h
+#define DataBase_tester_h
+
 #include <string.h>
 #include <fstream>
 #include <cstdlib>
@@ -11,7 +14,7 @@ void generate(int size, string name) {
 	srand (unsigned(time(NULL)));
 	for (int i = 0; i < size; i++) {
 		char name[22];
-		int name_length = rand() % 15 + 5;
+		int name_length = rand() % 5 + 6;
 		for (int j = 0; j < name_length; j++) {
 			name[j] = rand() % 26 + 'A';
 		}
@@ -19,7 +22,7 @@ void generate(int size, string name) {
 		int group = rand() % 100 + 1;
 		double rating = 1 + (double)rand() / RAND_MAX;
 		char info[27];
-		int info_length = rand() % 20 + 5;
+		int info_length = rand() % 5 + 6;
 		for (int j = 0; j < info_length; j++) {
 			info[j] = rand() % 26 + 'A';
 		}
@@ -28,3 +31,5 @@ void generate(int size, string name) {
 		out << rating << ' ' << info << endl;
 	}
 }
+
+#endif

@@ -1,4 +1,5 @@
-ll:
-	g++ -o client client.cpp
-	./client localhost 1234 "unbelievable! It works! (client2)"
+all:
+	g++ -o server server.cpp
+	./server
+
 

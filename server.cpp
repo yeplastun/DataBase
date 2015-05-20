@@ -28,11 +28,11 @@ int main () {
 	cout << ((double) end - start) / ((double) CLOCKS_PER_SEC) << endl;
 	cout << "--------------------------------------------------------------------------" << endl;
 	// int code;
-	int Port = 1234;
+	int Port = 1111;
 	int s;
 	s = socket(AF_INET, SOCK_STREAM, 0);
 	int yes = 1;
-	// setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int) == -1 );
+	//setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int) == -1 );
 	sockaddr_in MyAddr;
 	memset(&MyAddr, 0, sizeof(sockaddr_in));
 	MyAddr.sin_family = AF_INET;
@@ -73,7 +73,7 @@ int main () {
 			int s2;
 			sockaddr_in CliAddr;
 			socklen_t AddrLen;
-			if ( (s2 = accept(s, (struct sockaddr*) &CliAddr, &AddrLen)) < 0 )
+			if ((s2 = ::accept(s, (struct sockaddr*) &CliAddr, &AddrLen)) < 0 )
 				perror("accept error\n");
 			else {
 				cout << "Client connected" << endl;
@@ -92,7 +92,7 @@ int main () {
 			// cout << "Trying to find a mistake" << endl;
 			if (FD_ISSET(*it, &rfds)) {
 				bytes_read = recv(*it, &len, sizeof(int), MSG_WAITALL);
-				cout << bytes_read << endl;
+				//cout << "len " << len << endl;
 				if (bytes_read <= 0) {
 					cout << "Client disconnected" << endl;
 					close(*it);
@@ -101,29 +101,56 @@ int main () {
 					continue;
 				}
 				bytes_read = recv(*it, buf, len, MSG_WAITALL);
-				//cout << bytes_read << endl;
 				buf[len] = 0;
 				request RT;
 				string str;
 				str = buf;
-				cout << str << endl;
-				RT.get_request(str, *it);
-				if (RT.empty()) {
-					string mist = "Mistake!\n";
-					write(*it, mist.c_str(), mist.length());
+				if (!RT.get_request(str, *it)) {
+					//string mist = "Wrong command!\n";
+					int tmp_int = -1;
+					write (*it, &tmp_int, sizeof(int));
+					cout << "Wrong command from client N " << *it << endl;
+					//len = mist.size();
+					//write(s, &len, sizeof(int));
+					//write(*it, mist.c_str(), mist.length());
 					//cout << err_analyze (err) << endl;
 					continue;
 				}
-				cout << RT;
-				start = clock();
-				d.Execute(RT);
-				end = clock();
-				cout << "last request: ";
-				cout << ((double) end - start) / ((double) CLOCKS_PER_SEC);
-				cout << " seconds" << endl;
+				else {
+					int tmp;
+					if (strcmp(RT.type_.c_str(), "print") == 0) {
+						tmp = 1;
+						write(*it, &tmp, sizeof(int));
+						d.Execute(RT);
+						cout << "Request executed:" << endl;
+						cout << RT;
+						int num = d.printed[*it].size();
+						write(*it, &num, sizeof(int));
+						for (vector<string>::iterator lit = d.printed[*it].begin();
+						        lit != d.printed[*it].end(); ++lit) {
+							int len = lit->length();
+							write(*it, &len, sizeof(int));
+							write(*it, lit->c_str(), len);
+						}
+						d.printed[*it].clear();
+
+					}
+					else {
+						tmp = 0;
+						write(*it, &tmp, sizeof(int));
+						d.Execute(RT);
+						cout << "Request executed:" << endl;
+						cout << RT;
+					}
+				}
 			}
 		}
 	}
+	for (set<int>::iterator it = clients.begin(); it != clients.end(); it++) {
+		int tmp_int = 2;
+		write (*it, &tmp_int, sizeof(int));
+	}
+
 	close(s);
 	return 0;
 }
