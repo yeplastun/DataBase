@@ -799,11 +799,15 @@ public:
 		}
 	}
 	void Print(request req) {
-		if (clients_[req.client_].empty())
-			for (list<cell>::iterator it = data_.begin();
-			        it != data_.end(); ++it)
-				clients_[req.client_].push_back(&*it);
+		printed[req.client_].clear();
+		if (clients_[req.client_].empty()) {
+			printed[req.client_].push_back("No data to print");
+			char cTmp = 0;
+			printed[req.client_].back() += cTmp;
+		}
 		if (!clients_[req.client_].empty()) {
+			
+				sort(clients_[req.client_].begin(), clients_[req.client_].end(), p_info);
 			if (req.sort_field_ == "name")
 				sort(clients_[req.client_].begin(), clients_[req.client_].end(), p_name);
 			if (req.sort_field_ == "group")
@@ -816,22 +820,24 @@ public:
 			        it != clients_[req.client_].end(); ++it) {
 				string tmp = "";
 				printed[req.client_].push_back(tmp);
+				//if (req.sort_field_ == ""&& !req.print_fields_.empty())
+				//	req.print_fields_.pop_back();
 				for (list<string>::iterator lit = req.print_fields_.begin();
 				        lit != req.print_fields_.end(); ++lit) {
 					if (*lit == "name") {
 						printed[req.client_].back() += ((*it)->name_);
-						printed[req.client_].back() += ' ';
-						for (int i = 15 - (*it)->name_.length(); i >= 0; --i)
-							printed[req.client_].back() += ' ';
+						printed[req.client_].back() += ',';
+						//for (int i = 15 - (*it)->name_.length(); i >= 0; --i)
+						//	printed[req.client_].back() += ' ';
 
 					}
 					if (*lit == "group") {
 						char buff[16];
 						sprintf(buff, "%d", (*it)->group_);
 						printed[req.client_].back() += (buff);
-						printed[req.client_].back() += ' ';
-						for (int i = 15 - strlen(buff); i >= 0; --i)
-							printed[req.client_].back() += ' ';
+						printed[req.client_].back() += ',';
+						//for (int i = 15 - strlen(buff); i >= 0; --i)
+						//	printed[req.client_].back() += ' ';
 
 
 					}
@@ -839,21 +845,21 @@ public:
 						char buff[16];
 						sprintf(buff, "%f", (*it)->rating_);
 						printed[req.client_].back() += (buff);
-						printed[req.client_].back() += ' ';
-						for (int i = 15 - strlen(buff); i >= 0; --i)
-							printed[req.client_].back() += ' ';
+						printed[req.client_].back() += ',';
+						//for (int i = 15 - strlen(buff); i >= 0; --i)
+						//	printed[req.client_].back() += ' ';
 
 					}
 					if (*lit == "info") {
 						printed[req.client_].back() += ((*it)->info_);
-						printed[req.client_].back() += ' ';
-						for (int i = 15 - (*it)->info_.length(); i >= 0; --i)
-							printed[req.client_].back() += ' ';
+						printed[req.client_].back() += ',';
+						//for (int i = 15 - (*it)->info_.length(); i >= 0; --i)
+						//	printed[req.client_].back() += ' ';
 
 					}
 				}
 				char cTmp = 0;
-				printed[req.client_].back() += cTmp;
+				printed[req.client_].back()[printed[req.client_].back().length()-1] = cTmp;
 			}
 		}
 		return;

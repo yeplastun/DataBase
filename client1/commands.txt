@@ -1,0 +1,11 @@
+select group = 100
+print name group sort group
+reselect name=A*
+print name name name sort name
+reselect name=B*
+print group
+select group = *-100
+select group = *-200
+select group = 40-50
+print rating
+end

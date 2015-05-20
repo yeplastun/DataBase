@@ -15,11 +15,11 @@ int main (int argc, char* argv[]) {
 	(void)argc;
 	string ofname;
 	ofname = "request_";
-	int request_number = 1;
+	//int request_number = 1;
 	int code;
 	//char message[1024];
 	string message;
-	int int_message;
+	//int int_message;
 	sockaddr_in SrvAddr;
 	hostent * Host = gethostbyname(argv[1]);
 	SrvAddr.sin_family = AF_INET;

@@ -57,13 +57,15 @@ class cell {
 			return out;
 		}
 		bool operator ==(const cell& st) {
-			if (name_ == st.name_ &&
-					group_ == st.group_ &&
-					fabs(rating_ - st.rating_) < eps &&
-					info_ == st.info_)
-				return 1;
-			else
+			if (!(name_ == st.name_))
 				return 0;
+			if (!(group_ == st.group_))
+				return 0;
+			if (!(fabs(rating_ - st.rating_) < eps)) 
+				return 0;
+			if (!(info_ == st.info_))
+				return 0;
+			return 1;
 		}
 		~cell() {}
 };
@@ -127,8 +129,12 @@ class hash_set{
 					unsigned long size = it->size();
 					for (cell_it c_it = it->begin(); c_it != it->end();
 						c_it++) {
-						if (student == **c_it)
+						if (student == **c_it) {
 							it->erase(c_it);
+							c_it = it->begin();
+							if (it->size() == 0)
+									break;
+						}
 					}
 
 					// it->remove(student);

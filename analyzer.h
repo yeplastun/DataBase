@@ -222,7 +222,7 @@ public:
 		if (!ss)
 			return 0;
 		if (type_ == "print") {
-			while (ss && tmp != "sort" && tmp != "to") {
+			while (ss && tmp != "sort") {
 				ss >> tmp;
 				if (fields().find(tmp) != fields().end())
 					print_fields_.push_back(tmp);
@@ -242,6 +242,8 @@ public:
 			}
 			if (print_fields_.empty())
 				return 0;
+			else
+				print_fields_.pop_back();
 			return 1;
 }
 		if (type_ == "insert") {

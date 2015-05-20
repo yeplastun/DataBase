@@ -14,7 +14,7 @@ int main () {
 	cout << "--------------------------------------------------------------------------";
 	cout << endl;
 	start = clock();
-	generate(10000, "raw.txt");
+	generate(1000, "raw.txt");
 	end = clock();
 	cout << "end of generating: ";
 	cout << ((double) end - start) / ((double) CLOCKS_PER_SEC) << endl;
@@ -31,7 +31,7 @@ int main () {
 	int Port = 1111;
 	int s;
 	s = socket(AF_INET, SOCK_STREAM, 0);
-	int yes = 1;
+	//int yes = 1;
 	//setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int) == -1 );
 	sockaddr_in MyAddr;
 	memset(&MyAddr, 0, sizeof(sockaddr_in));
@@ -51,6 +51,7 @@ int main () {
 	struct timeval tv;
 	int retval;
 	while (1) {
+		cout << "Waiting for clients" << endl;
 		FD_ZERO(&rfds);
 		FD_SET(s, &rfds);
 		FD_SET(0, &rfds);
@@ -96,7 +97,10 @@ int main () {
 				if (bytes_read <= 0) {
 					cout << "Client disconnected" << endl;
 					close(*it);
-					clients.erase(*it);
+					clients.erase(it);
+					it = clients.begin();
+					if (clients.empty())
+						break;
 					d.DeleteClient(*it);
 					continue;
 				}
