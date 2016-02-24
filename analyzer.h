@@ -69,8 +69,7 @@ void transformation(string& req) {
 					if (req[j] == '-') {
 						i = j;
 						j = (int)req.length();
-					}
-					else {
+					} else {
 						req.insert(j, ",");
 						j++;
 						req.insert(j, " ");
@@ -89,7 +88,7 @@ void transformation(string& req) {
 
 template <typename T>
 class cond {
-public:
+  public:
 	T from;
 	T to;
 	int type_;
@@ -128,8 +127,7 @@ public:
 				ss.unget();
 			type_ = 0;
 			return 1;
-		}
-		else {
+		} else {
 			char c;
 			ss >> c;
 			if (c == '*') {
@@ -141,8 +139,7 @@ public:
 					return 0;
 				type_ = 3;
 				return 1;
-			}
-			else {
+			} else {
 				ss.unget();
 				ss >> from;
 				if (!ss)
@@ -164,8 +161,7 @@ public:
 				if (c == '*') {
 					type_ = 2;
 					return 1;
-				}
-				else {
+				} else {
 					ss.unget();
 					ss >> to;
 					if (!ss)
@@ -181,7 +177,7 @@ public:
 };
 
 class request {
-public:
+  public:
 	int client_;
 	string type_; // select reselect insert remove print
 	list<string> print_fields_;
@@ -245,7 +241,7 @@ public:
 			else
 				print_fields_.pop_back();
 			return 1;
-}
+		}
 		if (type_ == "insert") {
 			ss >> insertStudent;
 			if (!ss)
@@ -270,9 +266,9 @@ public:
 			ss >> tmp;
 			if (!ss) {
 				if (name_.empty_ == 1 && group_.empty_ == 1 &&
-					rating_.empty_ == 1 && info_.empty_ == 1)
+				        rating_.empty_ == 1 && info_.empty_ == 1)
 					return 0;
-				else 
+				else
 					return 1;
 			}
 			if (fields().find(tmp) != fields().end()) {
@@ -296,8 +292,7 @@ public:
 						info_.empty_ = 1;
 						return 0;
 					}
-			}
-			else
+			} else
 				return 1;
 		}
 		return 1;

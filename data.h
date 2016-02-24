@@ -115,7 +115,7 @@ bool p_info (cell* first, cell* second) {
 }
 
 class database {
-private:
+  private:
 	multimap<string, cell*> name_base_;
 	multimap<double, cell*> rating_base_;
 	list<cell> data_;
@@ -123,7 +123,7 @@ private:
 	hash_set hash_base_;
 	int size_;
 	map<int, vector<cell*> > clients_;
-public:
+  public:
 	map<int, vector<string> > printed;
 	int temp_size(int client) {
 		return int(clients_[client].size());
@@ -265,8 +265,7 @@ public:
 						if (req.info_.from.substr(0, req.info_.from.size() - 1)
 						        != (*it->second).info_.substr(0, req.info_.from.size() - 1))
 							continue;
-					}
-					else {
+					} else {
 						if (req.info_.from != (*it->second).info_)
 							continue;
 					}
@@ -292,8 +291,7 @@ public:
 							if (req.name_.from.substr(0, req.name_.from.size() - 1)
 							        != (*it)->name_.substr(0, req.name_.from.size() - 1))
 								continue;
-						}
-						else {
+						} else {
 							if (req.name_.from != (*it)->name_)
 								continue;
 						}
@@ -304,8 +302,7 @@ public:
 							if (req.info_.from.substr(0, req.info_.from.size() - 1)
 							        != (*it)->info_.substr(0, req.info_.from.size() - 1))
 								continue;
-						}
-						else {
+						} else {
 							if (req.info_.from != (*it)->info_)
 								continue;
 						}
@@ -344,8 +341,7 @@ public:
 								if (req.name_.from.substr(0, req.name_.from.size() - 1)
 								        != (*it)->name_.substr(0, req.name_.from.size() - 1))
 									continue;
-							}
-							else {
+							} else {
 								if (req.name_.from != (*it)->name_)
 									continue;
 							}
@@ -356,8 +352,7 @@ public:
 								if (req.info_.from.substr(0, req.info_.from.size() - 1)
 								        != (*it)->info_.substr(0, req.info_.from.size() - 1))
 									continue;
-							}
-							else {
+							} else {
 								if (req.info_.from != (*it)->info_)
 									continue;
 							}
@@ -396,8 +391,7 @@ public:
 								if (req.name_.from.substr(0, req.name_.from.size() - 1)
 								        != (*it)->name_.substr(0, req.name_.from.size() - 1))
 									continue;
-							}
-							else {
+							} else {
 								if (req.name_.from != (*it)->name_)
 									continue;
 							}
@@ -408,8 +402,7 @@ public:
 								if (req.info_.from.substr(0, req.info_.from.size() - 1)
 								        != (*it)->info_.substr(0, req.info_.from.size() - 1))
 									continue;
-							}
-							else {
+							} else {
 								if (req.info_.from != (*it)->info_)
 									continue;
 							}
@@ -448,8 +441,7 @@ public:
 								if (req.name_.from.substr(0, req.name_.from.size() - 1)
 								        != (*it)->name_.substr(0, req.name_.from.size() - 1))
 									continue;
-							}
-							else {
+							} else {
 								if (req.name_.from != (*it)->name_)
 									continue;
 							}
@@ -460,8 +452,7 @@ public:
 								if (req.info_.from.substr(0, req.info_.from.size() - 1)
 								        != (*it)->info_.substr(0, req.info_.from.size() - 1))
 									continue;
-							}
-							else {
+							} else {
 								if (req.info_.from != (*it)->info_)
 									continue;
 							}
@@ -498,8 +489,7 @@ public:
 							if (req.name_.from.substr(0, req.name_.from.size() - 1)
 							        != (it->second->name_.substr(0, req.name_.from.size() - 1)))
 								continue;
-						}
-						else {
+						} else {
 							if (req.name_.from != it->second->name_)
 								continue;
 						}
@@ -510,8 +500,7 @@ public:
 							if (req.info_.from.substr(0, req.info_.from.size() - 1)
 							        != (it->second->info_.substr(0, req.info_.from.size() - 1)))
 								continue;
-						}
-						else {
+						} else {
 							if (req.info_.from != it->second->info_)
 								continue;
 						}
@@ -532,8 +521,7 @@ public:
 								}
 								continue;
 							}
-						}
-						else {
+						} else {
 							if (req.name_.from != it->second->name_) {
 								if (it == rating_base_.begin()) {
 									break;
@@ -552,8 +540,7 @@ public:
 								}
 								continue;
 							}
-						}
-						else {
+						} else {
 							if (req.info_.from != it->second->info_) {
 								if (it == rating_base_.begin()) {
 									break;
@@ -577,8 +564,7 @@ public:
 							if (req.name_.from.substr(0, req.name_.from.size() - 1)
 							        != (it->second->name_.substr(0, req.name_.from.size() - 1)))
 								continue;
-						}
-						else {
+						} else {
 							if (req.name_.from != it->second->name_)
 								continue;
 						}
@@ -589,8 +575,7 @@ public:
 							if (req.info_.from.substr(0, req.info_.from.size() - 1)
 							        != (it->second->info_.substr(0, req.info_.from.size() - 1)))
 								continue;
-						}
-						else {
+						} else {
 							if (req.info_.from != it->second->info_)
 								continue;
 						}
@@ -607,8 +592,7 @@ public:
 							if (req.name_.from.substr(0, req.name_.from.size() - 1)
 							        != (it->second->name_.substr(0, req.name_.from.size() - 1)))
 								continue;
-						}
-						else {
+						} else {
 							if (req.name_.from != it->second->name_)
 								continue;
 						}
@@ -619,8 +603,7 @@ public:
 							if (req.info_.from.substr(0, req.info_.from.size() - 1)
 							        != (it->second->info_.substr(0, req.info_.from.size() - 1)))
 								continue;
-						}
-						else {
+						} else {
 							if (req.info_.from != it->second->info_)
 								continue;
 						}
@@ -638,8 +621,7 @@ public:
 					if (req.info_.from.substr(0, req.info_.from.size() - 1)
 					        != it->info_.substr(0, req.info_.from.size() - 1))
 						continue;
-				}
-				else {
+				} else {
 					if (req.info_.from != it->info_)
 						continue;
 				}
@@ -675,8 +657,7 @@ public:
 						it--;
 						continue;
 					}
-				}
-				else {
+				} else {
 					if (req.name_.from.substr(0, req.name_.from.size() - 1)
 					        != ((*it)->name_.substr(0, req.name_.from.size() - 1))) {
 						clients_[req.client_].erase(it);
@@ -694,8 +675,7 @@ public:
 						it--;
 						continue;
 					}
-				}
-				else {
+				} else {
 					if (req.info_.from.substr(0, req.info_.from.size() - 1)
 					        != ((*it)->info_.substr(0, req.info_.from.size() - 1))) {
 						clients_[req.client_].erase(it);
@@ -792,8 +772,7 @@ public:
 			for (list<cell>::iterator it = data_.begin();
 			        it != data_.end(); ++it)
 				out << *it;
-		}
-		else {
+		} else {
 			for (unsigned int i = 0; i < clients_[req.client_].size(); ++i)
 				out << *clients_[req.client_][i];
 		}
@@ -806,8 +785,8 @@ public:
 			printed[req.client_].back() += cTmp;
 		}
 		if (!clients_[req.client_].empty()) {
-			
-				sort(clients_[req.client_].begin(), clients_[req.client_].end(), p_info);
+
+			sort(clients_[req.client_].begin(), clients_[req.client_].end(), p_info);
 			if (req.sort_field_ == "name")
 				sort(clients_[req.client_].begin(), clients_[req.client_].end(), p_name);
 			if (req.sort_field_ == "group")
@@ -859,7 +838,7 @@ public:
 					}
 				}
 				char cTmp = 0;
-				printed[req.client_].back()[printed[req.client_].back().length()-1] = cTmp;
+				printed[req.client_].back()[printed[req.client_].back().length() - 1] = cTmp;
 			}
 		}
 		return;

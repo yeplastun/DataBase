@@ -119,8 +119,7 @@ int main () {
 					//write(*it, mist.c_str(), mist.length());
 					//cout << err_analyze (err) << endl;
 					continue;
-				}
-				else {
+				} else {
 					int tmp;
 					if (strcmp(RT.type_.c_str(), "print") == 0) {
 						tmp = 1;
@@ -138,8 +137,7 @@ int main () {
 						}
 						d.printed[*it].clear();
 
-					}
-					else {
+					} else {
 						tmp = 0;
 						write(*it, &tmp, sizeof(int));
 						d.Execute(RT);
