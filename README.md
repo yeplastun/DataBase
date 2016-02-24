@@ -4,4 +4,5 @@ This database gives an ability to add data from console or from file. Also it pr
 
 Here I used red-black trees represented in C++ STL as map. I written my own hashset to use it over one of my indices for better speed.
 
-This DB suppports sql-like interface with specially written syntax analizer.
+This DB suppports sql-like interface with specially written syntax analizer. Some of aviable commands you can find here:
+`client1/commands.txt`
